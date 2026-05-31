@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Wiredge – Settings</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'IBM Plex Mono', monospace;
+      background: #07090F; color: #C9D1D9;
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card {
+      width: 480px; background: #0D1117;
+      border: 1px solid #21262D; border-radius: 10px; padding: 32px;
+    }
+    .logo-row {
+      display: flex; align-items: center; gap: 10px; margin-bottom: 24px;
+    }
+    .logo-mark {
+      width: 32px; height: 32px; background: #00B4D8; border-radius: 5px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 900; color: #07090F;
+    }
+    .logo-text { font-size: 18px; font-weight: 900; letter-spacing: 5px; color: #F0F6FC; }
+    .badge { font-size: 7px; letter-spacing: 2px; color: #30363D; border: 1px solid #21262D; padding: 1px 5px; border-radius: 2px; }
+    h2 { font-size: 11px; color: #8B949E; letter-spacing: 1px; margin-bottom: 20px; }
+    label { font-size: 9px; color: #8B949E; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+    input[type="text"] {
+      width: 100%; background: #07090F; border: 1px solid #21262D;
+      border-radius: 5px; padding: 10px 12px; color: #C9D1D9;
+      font-size: 11px; font-family: 'IBM Plex Mono', monospace;
+      outline: none; transition: border-color .2s, box-shadow .2s;
+    }
+    input[type="text"]:focus {
+      border-color: #00B4D8;
+      box-shadow: 0 0 0 2px rgba(0,180,216,.15);
+    }
+    .hint {
+      font-size: 8px; color: #30363D; margin-top: 7px; line-height: 1.8;
+    }
+    .hint a { color: #00B4D8; text-decoration: none; }
+    .save-btn {
+      margin-top: 20px; width: 100%; background: #00B4D8; color: #07090F;
+      border: none; padding: 11px; border-radius: 5px;
+      font-size: 11px; font-weight: 800; cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace; letter-spacing: 1px;
+      transition: filter .2s;
+    }
+    .save-btn:hover { filter: brightness(1.1); }
+    .status {
+      margin-top: 12px; font-size: 9px; text-align: center;
+      height: 16px; transition: all .3s;
+    }
+    .status.ok { color: #34D399; }
+    .status.err { color: #F87171; }
+    .divider { border: none; border-top: 1px solid #161B22; margin: 22px 0; }
+    .info-box {
+      background: #0A1628; border: 1px solid #003D4D;
+      border-radius: 5px; padding: 12px 14px;
+    }
+    .info-box p { font-size: 8px; color: #8B949E; line-height: 2; }
+    .info-box strong { color: #00B4D8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-row">
+      <div class="logo-mark">W</div>
+      <span class="logo-text">WIREDGE</span>
+      <span class="badge">SETTINGS</span>
+    </div>
+
+    <h2>GROQ API CONFIGURATION</h2>
+
+    <label for="apiKey">YOUR GROQ API KEY</label>
+    <input type="text" id="apiKey" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
+    <div class="hint">
+      Get a free key at <a href="https://console.groq.com/keys" target="_blank">console.groq.com/keys</a><br/>
+      Your key is stored <strong>only on your device</strong> and never sent anywhere except Groq's API.
+    </div>
+
+    <button class="save-btn" id="saveBtn">💾 SAVE API KEY</button>
+    <div class="status" id="status"></div>
+
+    <hr class="divider"/>
+
+    <div class="info-box">
+      <p>
+        <strong>How it works:</strong><br/>
+        1. Go to <strong>console.groq.com/keys</strong><br/>
+        2. Click <strong>Create API Key</strong><br/>
+        3. Paste it above and click Save<br/>
+        4. Click the Wiredge icon in your toolbar to start compressing!
+      </p>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

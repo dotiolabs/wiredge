@@ -1,0 +1,68 @@
+{
+  "manifest_version": 3,
+  "name": "Wiredge – UI Compression Engine + Claude Tracker",
+  "short_name": "Wiredge",
+  "version": "1.1.0",
+  "description": "Compress prompts, track live usage, and seamlessly switch chats between Claude, ChatGPT, Gemini, & Grok with one click.",
+  "author": "dotiolabs",
+  "options_page": "options.html",
+  "homepage_url": "https://wiredge.vercel.app",
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Wiredge",
+    "default_icon": {
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*"],
+      "css": ["content/styles.css"],
+      "js": ["content/fetcher.js", "content/capsule.js", "content/sidebar-panel.js", "content/chat-overlay.js", "content/prompt-compressor.js", "content/universal-capturer.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*",
+        "https://grok.com/*",
+        "https://x.ai/*"
+      ],
+      "js": ["content/destination-injector.js", "content/prompt-compressor.js", "content/universal-capturer.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "permissions": [
+    "storage",
+    "clipboardWrite",
+    "alarms",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://api.groq.com/*",
+    "https://claude.ai/*",
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://gemini.google.com/*",
+    "https://grok.com/*",
+    "https://x.ai/*",
+    "https://api.polar.sh/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'none';"
+  }
+}

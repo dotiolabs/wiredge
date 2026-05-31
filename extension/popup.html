@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Wiredge</title>
+  <link rel="stylesheet" href="popup.css"/>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- HEADER -->
+    <header class="hdr">
+      <div class="brand">
+        <span class="brand-dot"></span>
+        <span class="brand-name">Wiredge</span>
+        <span class="brand-agency">dotiolabs</span>
+      </div>
+      <a class="settings-btn" id="settingsBtn" title="Settings">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+      </a>
+    </header>
+
+    <!-- TAB NAVIGATION -->
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="compress">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Compress
+      </button>
+      <button class="tab-btn" data-tab="switch">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h5v5"/><path d="M8 3H3v5"/><path d="M21 3l-7 7"/><path d="M3 3l7 7"/><path d="M16 21h5v-5"/><path d="M8 21H3v-5"/><path d="M21 21l-7-7"/><path d="M3 21l7-7"/></svg>
+        Switch AI
+      </button>
+      <button class="tab-btn" data-tab="claude">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+        Usage
+      </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 1: COMPRESS (existing UI) -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-panel active" id="tabCompress">
+
+      <!-- INPUT ZONE -->
+      <div class="input-zone">
+        <textarea
+          id="inputText"
+          maxlength="2000"
+          placeholder="Describe your UI component or layout here…&#10;&#10;e.g. SaaS landing page with sticky nav, hero, 3-column features, pricing, and footer."
+        ></textarea>
+
+        <!-- Quick fills -->
+        <div class="quick-fills">
+          <button class="qf" data-sample="saas">SaaS page</button>
+          <button class="qf" data-sample="dashboard">Dashboard</button>
+          <button class="qf" data-sample="contact">Contact form</button>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <button class="cta-btn" id="compressBtn">
+        <span id="ctaIcon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </span>
+        <span id="ctaText">Generate DSL</span>
+      </button>
+
+      <!-- ERROR -->
+      <div class="err-msg" id="errMsg" style="display:none"></div>
+
+      <!-- OUTPUT ZONE -->
+      <div class="output-zone" id="outputZone" style="display:none">
+        <div class="output-label">
+          <span class="output-badge">DSL</span>
+          <span class="output-savings" id="outputSavings"></span>
+        </div>
+        <div class="output-box" id="outputBox">
+          <pre id="outputText"></pre>
+          <button class="copy-icon-btn" id="copyBtn" title="Copy to clipboard">
+            <span id="copyIcon">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+          </button>
+        </div>
+
+        <!-- Export row -->
+        <div class="export-row">
+          <select id="frameworkSelect">
+            <option>React</option>
+            <option>HTML/CSS</option>
+            <option>Vue</option>
+            <option>Next.js</option>
+            <option>Svelte</option>
+            <option>Flutter</option>
+            <option>React Native</option>
+          </select>
+          <button class="export-btn" id="exportBtn">Copy Prompt</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 2: CLAUDE USAGE -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="tabClaude">
+
+      <!-- Usage header -->
+      <div class="usage-header">
+        <div class="usage-header-left">
+          <span class="usage-org serif" id="org"></span>
+          <span class="usage-plan-tag mono" id="planTag"></span>
+        </div>
+        <button class="refresh-btn" id="refreshUsage" title="Refresh">↻</button>
+      </div>
+
+      <!-- Session usage -->
+      <section class="usage-section" id="sessionSection" hidden>
+        <div class="usage-section-head">
+          <span class="usage-section-title">YOUR USAGE LIMITS</span>
+        </div>
+        <div class="limit-row" id="rowSession">
+          <div class="limit-row-top">
+            <span class="limit-label">Current session</span>
+            <span class="limit-pct mono tab-num" data-bind="sessionPct">—</span>
+          </div>
+          <div class="limit-row-sub mono" data-bind="sessionReset">—</div>
+          <div class="usage-bar"><div class="usage-bar-fill" data-bind="sessionBar"></div></div>
+        </div>
+      </section>
+
+      <!-- Weekly usage -->
+      <section class="usage-section" id="weeklySection" hidden>
+        <div class="usage-section-head">
+          <span class="usage-section-title">WEEKLY LIMITS</span>
+        </div>
+        <div class="limit-row" id="rowWeekly">
+          <div class="limit-row-top">
+            <span class="limit-label">All models</span>
+            <span class="limit-pct mono tab-num" data-bind="weeklyPct">—</span>
+          </div>
+          <div class="limit-row-sub mono" data-bind="weeklyReset">—</div>
+          <div class="usage-bar"><div class="usage-bar-fill" data-bind="weeklyBar"></div></div>
+        </div>
+        <div class="limit-row" id="rowSonnet" hidden>
+          <div class="limit-row-top">
+            <span class="limit-label">Sonnet</span>
+            <span class="limit-pct mono tab-num" data-bind="sonnetPct">—</span>
+          </div>
+          <div class="limit-row-sub mono" data-bind="sonnetReset">—</div>
+          <div class="usage-bar"><div class="usage-bar-fill" data-bind="sonnetBar"></div></div>
+        </div>
+        <div class="limit-row" id="rowOpus" hidden>
+          <div class="limit-row-top">
+            <span class="limit-label">Opus</span>
+            <span class="limit-pct mono tab-num" data-bind="opusPct">—</span>
+          </div>
+          <div class="limit-row-sub mono" data-bind="opusReset">—</div>
+          <div class="usage-bar"><div class="usage-bar-fill" data-bind="opusBar"></div></div>
+        </div>
+      </section>
+
+      <!-- Capsule section (cross-LLM handoff) -->
+      <section class="usage-section capsule-section" id="capsuleSection" hidden>
+        <div class="usage-section-head">
+          <span class="usage-section-title">CONTINUE THIS CHAT IN</span>
+        </div>
+        <div class="capsule-meta">
+          <span class="capsule-title" id="capsuleTitle">…</span>
+        </div>
+        <div class="capsule-actions">
+          <button class="cap-btn primary" data-dest="chatgpt"><span class="cap-icon">↗</span> ChatGPT</button>
+          <button class="cap-btn" data-dest="gemini"><span class="cap-icon">↗</span> Gemini</button>
+          <button class="cap-btn" data-dest="grok"><span class="cap-icon">↗</span> Grok</button>
+          <button class="cap-btn" data-dest="copy" title="Copy as Markdown"><span class="cap-icon">⎘</span></button>
+          <button class="cap-btn" data-dest="download" title="Download .md"><span class="cap-icon">↓</span></button>
+        </div>
+        <div class="capsule-hint" id="capsuleHint">Wiredge opens the destination tab and pastes the conversation — including any files Claude built — into the input automatically.</div>
+        <div class="capsule-toast" id="capsuleToast" hidden></div>
+
+        <!-- Free-tier quota meter -->
+        <div class="quota" id="quotaBox" hidden>
+          <span class="quota-text" id="quotaText">— · 2 free today</span>
+          <a href="#" class="quota-upgrade" id="quotaUpgrade">Upgrade →</a>
+        </div>
+
+        <!-- Upsell -->
+        <div class="upsell" id="upsell" hidden>
+          <div class="upsell-title" id="upsellTitle">You've used today's 2 free sends.</div>
+          <div class="upsell-body">Wiredge Pro is <strong>$2/mo</strong> or <strong>$20 lifetime</strong> — unlimited cross-LLM handoffs.</div>
+          <div class="upsell-actions">
+            <button class="upsell-cta" id="buyProBtn">Buy Pro →</button>
+            <button class="upsell-trial" id="startTrialBtn" hidden>Leave a review · 3 days free →</button>
+            <button class="upsell-link" id="haveKey">I have a license key</button>
+          </div>
+        </div>
+
+        <!-- License-key input form -->
+        <div class="license-form" id="licenseForm" hidden>
+          <label class="license-label">Paste your Polar license key</label>
+          <input class="license-input" id="licenseInput" type="text" placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX" autocomplete="off" spellcheck="false" maxlength="64" />
+          <div class="license-actions">
+            <button class="upsell-link" id="cancelKey">Cancel</button>
+            <button class="upsell-cta" id="activateKey">Activate</button>
+          </div>
+          <div class="license-status" id="licenseStatus" hidden></div>
+        </div>
+      </section>
+
+      <!-- Error state -->
+      <div id="errorState" class="usage-error" hidden></div>
+
+      <!-- Footer -->
+      <div class="usage-footer">
+        <span class="mono small muted" id="updated">—</span>
+        <div class="usage-footer-right">
+          <a class="link link-secondary" href="#" id="helpLink" title="Send feedback">help</a>
+          <a class="link link-secondary" href="#" id="reviewLink" title="Leave a review">★ review</a>
+          <a class="link link-secondary" href="https://wiredge.vercel.app" target="_blank" title="Open wiredge.app">wiredge.app</a>
+          <a class="link" href="https://claude.ai/settings/usage" target="_blank">Claude settings →</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- TAB 3: SWITCH AI                                       -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <div class="tab-panel" id="tabSwitch">
+
+      <!-- Current context capture -->
+      <div class="switch-capture" id="switchCapture">
+        <div class="switch-capture-head">
+          <span class="switch-capture-dot" id="captureDot"></span>
+          <span class="switch-capture-label" id="captureLabel">Detecting active AI tab...</span>
+        </div>
+        <div class="switch-capture-title" id="captureTitle" hidden></div>
+        <div class="switch-capture-meta" id="captureMeta" hidden></div>
+      </div>
+
+      <!-- Model cards -->
+      <div class="switch-section-title">SWITCH TO</div>
+      <div class="model-grid" id="modelGrid">
+
+        <button class="model-card" data-model="claude" data-url="https://claude.ai">
+          <div class="model-card-top">
+            <div class="model-icon claude-icon">C</div>
+            <div class="model-info">
+              <div class="model-name">Claude</div>
+              <div class="model-sub">Anthropic</div>
+            </div>
+            <span class="model-status" id="statusClaude"></span>
+          </div>
+          <div class="model-action">Open & paste context <span class="arrow">&#8599;</span></div>
+        </button>
+
+        <button class="model-card" data-model="chatgpt" data-url="https://chatgpt.com">
+          <div class="model-card-top">
+            <div class="model-icon chatgpt-icon">G</div>
+            <div class="model-info">
+              <div class="model-name">ChatGPT</div>
+              <div class="model-sub">OpenAI</div>
+            </div>
+            <span class="model-status" id="statusChatgpt"></span>
+          </div>
+          <div class="model-action">Open & paste context <span class="arrow">&#8599;</span></div>
+        </button>
+
+        <button class="model-card" data-model="gemini" data-url="https://gemini.google.com/app">
+          <div class="model-card-top">
+            <div class="model-icon gemini-icon">G</div>
+            <div class="model-info">
+              <div class="model-name">Gemini</div>
+              <div class="model-sub">Google</div>
+            </div>
+            <span class="model-status" id="statusGemini"></span>
+          </div>
+          <div class="model-action">Open & paste context <span class="arrow">&#8599;</span></div>
+        </button>
+
+        <button class="model-card" data-model="grok" data-url="https://grok.com">
+          <div class="model-card-top">
+            <div class="model-icon grok-icon">X</div>
+            <div class="model-info">
+              <div class="model-name">Grok</div>
+              <div class="model-sub">xAI</div>
+            </div>
+            <span class="model-status" id="statusGrok"></span>
+          </div>
+          <div class="model-action">Open & paste context <span class="arrow">&#8599;</span></div>
+        </button>
+
+      </div>
+
+      <!-- Toast -->
+      <div class="switch-toast" id="switchToast" hidden></div>
+
+      <!-- How it works -->
+      <div class="switch-hint">
+        Wiredge reads your current conversation, builds a context prompt with all the data you're working on, opens the new AI tab, and auto-pastes it — so the new model picks up exactly where you left off.
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="lib/billing.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

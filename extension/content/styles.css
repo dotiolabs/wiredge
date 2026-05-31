@@ -1,0 +1,253 @@
+/* Wiredge — content script styles on claude.ai */
+/* by dotiolabs */
+
+.wiredge-card,
+.wiredge-bar-inline {
+  --w-ink: #0a0a0c;
+  --w-ink-100: #141418;
+  --w-ink-300: #222228;
+  --w-chalk: #ededf0;
+  --w-muted: #8a8a93;
+  --w-hair: rgba(255, 255, 255, 0.08);
+  --w-hair2: rgba(255, 255, 255, 0.14);
+  --w-cobalt: #6366F1;
+  --w-cyan: #818CF8;
+  --w-amber: #ffb547;
+  --w-rose: #ff6b6b;
+
+  color: var(--w-chalk);
+  font-family: "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+  box-sizing: border-box;
+}
+
+.wiredge-card *,
+.wiredge-bar-inline * { box-sizing: border-box; }
+
+.wiredge-bar-inline .tab-num,
+.wiredge-card .wiredge-tab { font-variant-numeric: tabular-nums; }
+.wiredge-bar-inline .mono,
+.wiredge-card .wiredge-mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.wiredge-bar-inline .serif,
+.wiredge-card .wiredge-serif { font-family: Georgia, "Times New Roman", serif; font-style: italic; }
+.wiredge-card .wiredge-muted { color: var(--w-muted); }
+
+/* ── Sidebar card ───────────────────────────────────────────── */
+
+.wiredge-card {
+  background: var(--w-ink-100);
+  border: 1px solid var(--w-hair);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin: 10px 12px;
+}
+.wiredge-card-cap {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--w-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wiredge-card-cap::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--w-cyan);
+  box-shadow: 0 0 6px var(--w-cyan);
+  animation: wiredgePulse 1.8s ease-in-out infinite;
+}
+@keyframes wiredgePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+.wiredge-card-num {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 40px;
+  line-height: 1;
+  margin: 6px 0 8px;
+  letter-spacing: -0.03em;
+  color: var(--w-chalk);
+}
+.wiredge-card-num .unit {
+  font-family: ui-monospace, monospace;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--w-muted);
+  margin-left: 3px;
+}
+.wiredge-bar {
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.06) 80%,
+      rgba(255, 107, 107, 0.20) 90%,
+      rgba(255, 107, 107, 0.35) 100%
+    );
+}
+.wiredge-bar-fill {
+  height: 100%;
+  background: var(--w-cobalt);
+  transition: width 0.4s ease, background-color 0.3s ease;
+}
+.wiredge-bar-fill.warn { background: var(--w-amber); }
+.wiredge-bar-fill.over { background: var(--w-rose); box-shadow: 0 0 6px rgba(255, 107, 107, 0.5); }
+.wiredge-card-foot {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--w-muted);
+}
+.wiredge-card-week {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--w-hair);
+}
+.wiredge-card-week-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+}
+.wiredge-card-week-row .val { color: var(--w-chalk); }
+
+/* ── Inline bar below chat input ───────────────────────────── */
+
+.wiredge-bar-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 10px;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--w-muted);
+  user-select: none;
+}
+
+.wiredge-bar-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.wiredge-bar-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--w-cyan);
+  box-shadow: 0 0 5px var(--w-cyan);
+  animation: wiredgePulse 1.8s ease-in-out infinite;
+}
+.wiredge-bar-name {
+  font-family: ui-monospace, monospace;
+  color: var(--w-chalk);
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  font-size: 11px;
+}
+.wiredge-bar-sep { opacity: 0.5; }
+.wiredge-bar-cap { letter-spacing: 0.16em; }
+
+.wiredge-bar-pct {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--w-chalk);
+  letter-spacing: -0.02em;
+  min-width: 38px;
+}
+
+.wiredge-bar-track {
+  position: relative;
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  overflow: visible;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.06) 80%,
+      rgba(255, 107, 107, 0.22) 90%,
+      rgba(255, 107, 107, 0.40) 100%
+    );
+}
+.wiredge-bar-inline .wiredge-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--w-cobalt);
+  border-radius: 2px;
+  transition: width 0.5s ease, background-color 0.3s ease;
+}
+.wiredge-bar-inline .wiredge-bar-fill.warn { background: var(--w-amber); }
+.wiredge-bar-inline .wiredge-bar-fill.over {
+  background: var(--w-rose);
+  box-shadow: 0 0 6px rgba(255, 107, 107, 0.5);
+}
+.wiredge-bar-marker.warn { background: var(--w-amber); }
+.wiredge-bar-marker.over { background: var(--w-rose); box-shadow: 0 0 0 2px var(--w-ink-100), 0 0 8px rgba(255, 107, 107, 0.6); }
+.wiredge-bar-marker {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  background: var(--w-chalk);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 2px var(--w-ink-100);
+  transition: left 0.5s ease;
+}
+
+.wiredge-bar-reset {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--w-muted);
+}
+.wiredge-bar-msgs {
+  color: var(--w-chalk);
+  font-weight: 500;
+}
+.wiredge-bar-msgs.warn { color: var(--w-amber); }
+.wiredge-bar-msgs.over { color: var(--w-rose); }
+.wiredge-bar-modeltag {
+  display: inline-block;
+  padding: 0 4px;
+  margin-left: 2px;
+  font-size: 9px;
+  border: 1px solid var(--w-hair);
+  border-radius: 3px;
+  color: var(--w-muted);
+  text-transform: lowercase;
+  letter-spacing: 0.06em;
+  font-family: ui-monospace, monospace;
+}
+
+.wiredge-bar-week {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--w-muted);
+  padding-left: 8px;
+  border-left: 1px solid var(--w-hair);
+}
+
+.wiredge-bar-inline.wiredge-bar-err .wiredge-bar-dot {
+  background: var(--w-rose);
+  box-shadow: 0 0 5px var(--w-rose);
+  animation: none;
+}
+.wiredge-bar-inline.wiredge-bar-err .wiredge-bar-pct { color: var(--w-muted); }
