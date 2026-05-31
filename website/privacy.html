@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Wiredge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .policy-container {
+            max-width: 800px;
+            margin: 120px auto 80px auto;
+            padding: 0 5%;
+        }
+        .policy-container h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+        .policy-date {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 0.95rem;
+        }
+        .policy-content h2 {
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .policy-content p, .policy-content ul {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+        .policy-content ul {
+            padding-left: 1.5rem;
+        }
+        .policy-content li {
+            margin-bottom: 0.5rem;
+        }
+        .policy-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <span class="logo-mark">W</span>
+            <span class="logo-text">WIREDGE</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">← Back to Home</a>
+        </div>
+    </nav>
+
+    <main class="policy-container">
+        <h1>Privacy Policy</h1>
+        <div class="policy-date">Last Updated: June 2026</div>
+        
+        <div class="policy-content">
+            <p>This Privacy Policy explains how Wiredge ("we", "us", or "our") collects, uses, and protects your information when you use the Wiredge Chrome Extension.</p>
+
+            <h2>1. Information We Collect and Process</h2>
+            <p>Wiredge operates primarily on your local device. We do not maintain servers that store your personal conversation data. However, for the extension to function, it processes the following data:</p>
+            <ul>
+                <li><strong>Conversation Content:</strong> When you use the capture or compress features, the extension reads the conversation text from the active AI chat window (e.g., Claude, ChatGPT, Gemini, Grok) and stores it temporarily in your browser's local storage to facilitate switching between AI models.</li>
+                <li><strong>API Usage Data:</strong> The extension accesses <code>claude.ai/api/organizations</code> and its associated <code>/usage</code> endpoint using your active session cookies to retrieve and display your message limits and quotas.</li>
+                <li><strong>API Keys:</strong> If you provide a Groq API key for the compression engine, it is stored securely in your browser's local storage. We never transmit this key anywhere except directly to the Groq API.</li>
+                <li><strong>License Keys:</strong> If you purchase a Wiredge Pro license, your license key is sent to our billing provider (Polar.sh) to validate your purchase.</li>
+            </ul>
+
+            <h2>2. How We Use Your Information</h2>
+            <p>We use the collected information strictly for the core functionality of the extension:</p>
+            <ul>
+                <li>To compress prompts and save you tokens/limits.</li>
+                <li>To seamlessly transfer your conversation context from one AI provider to another.</li>
+                <li>To accurately display your remaining usage limits.</li>
+                <li>To validate your license tier (Free vs Pro).</li>
+            </ul>
+
+            <h2>3. Third-Party Services</h2>
+            <p>The extension communicates with the following third-party services:</p>
+            <ul>
+                <li><strong>Groq API:</strong> Your conversation text and Groq API key (if provided) are sent here when you compress a prompt.</li>
+                <li><strong>Polar:</strong> Your license key and basic browser/OS identifiers are sent here to validate your Pro license.</li>
+                <li><strong>AI Providers:</strong> The extension injects your captured conversation text into the input fields of these websites when you switch models.</li>
+            </ul>
+
+            <h2>4. Permissions Justification</h2>
+            <p>The extension requires the following Chrome permissions to function:</p>
+            <ul>
+                <li><strong><code>storage</code>:</strong> To save your user preferences, conversation history (capsules), Groq API key, and billing state locally.</li>
+                <li><strong><code>clipboardWrite</code>:</strong> To allow you to easily copy compressed prompts or conversation capsules.</li>
+                <li><strong><code>alarms</code> & <code>tabs</code>:</strong> To run background tasks that keep your usage limits synchronized without slowing down your active web pages.</li>
+                <li><strong><code>host_permissions</code>:</strong> We request access to specific AI websites and third-party APIs solely to read your active conversations, check usage limits, compress text, and validate licenses.</li>
+            </ul>
+
+            <h2>5. Data Security and Retention</h2>
+            <ul>
+                <li><strong>No Remote Storage:</strong> We do not store your API keys, conversation data, or usage metrics on our servers.</li>
+                <li><strong>Local Cleanup:</strong> Conversation capsules stored in your browser are automatically deleted after 30 days.</li>
+                <li><strong>Data Sale:</strong> We will <strong>never</strong> sell, rent, or monetize your personal data or conversation history.</li>
+            </ul>
+
+            <h2>6. Contact Us</h2>
+            <p>If you have any questions or concerns about this Privacy Policy, please contact us at: <strong>contact@dotiolabs.com</strong></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <span class="logo-mark small">W</span> WIREDGE
+            </div>
+            <div class="footer-credits">
+                Designed & Built by <strong>Vaibhav Singh</strong> & <strong>dotiolabs</strong>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
