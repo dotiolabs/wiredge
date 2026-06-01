@@ -41,7 +41,8 @@
         "https://grok.com/*",
         "https://x.ai/*"
       ],
-      "js": ["content/destination-injector.js", "content/prompt-compressor.js", "content/universal-capturer.js"],
+      "css": ["content/styles.css"],
+      "js": ["content/chat-overlay.js", "content/destination-injector.js", "content/prompt-compressor.js", "content/universal-capturer.js"],
       "run_at": "document_idle"
     }
   ],

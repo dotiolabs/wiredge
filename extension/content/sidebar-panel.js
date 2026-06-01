@@ -92,10 +92,10 @@
     );
   }
 
-  function mount() {
-    if (document.getElementById(CARD_ID)) return;
+  function tryMount() {
+    if (document.getElementById(CARD_ID)) return true;
     const host = findSidebar();
-    if (!host) return;
+    if (!host) return false;
     const card = buildCard();
     host.parentElement?.insertBefore(card, host) || host.prepend(card);
     chrome.runtime.sendMessage({ type: "wiredge:get" }, render);
@@ -103,10 +103,10 @@
   }
 
   const obs = new MutationObserver(() => {
-    if (mount()) obs.disconnect();
+    tryMount();
   });
   obs.observe(document.documentElement, { childList: true, subtree: true });
-  setTimeout(() => { if (mount()) obs.disconnect(); }, 800);
+  tryMount();
 
   let lastState = null;
   const _render = render;

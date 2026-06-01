@@ -2,8 +2,6 @@
 // by dotiolabs
 (() => {
   const BAR_ID = "wiredge-inline-bar";
-  const MODEL_SELECTOR = '[data-testid="model-selector-dropdown"]';
-  const TOOLBAR_ROW = ".flex.w-full.items-center";
 
   let lastState = null;
 
@@ -111,12 +109,42 @@
 
   function tryMount() {
     if (document.getElementById(BAR_ID)) return true;
-    const modelSelector = document.querySelector(MODEL_SELECTOR);
-    if (!modelSelector) return false;
-    const toolbarRow = modelSelector.closest(TOOLBAR_ROW);
-    if (!toolbarRow) return false;
+
+    let target = null;
+    let insertMode = "before"; // "before" or "after"
+
+    if (window.location.hostname.includes("claude.ai")) {
+      const modelSelector = document.querySelector('[data-testid="model-selector-dropdown"]');
+      if (modelSelector) {
+        const toolbarRow = modelSelector.closest(".flex.w-full.items-center");
+        if (toolbarRow) {
+          target = toolbarRow;
+          insertMode = "after";
+        }
+      }
+    } else if (window.location.hostname.includes("chatgpt.com") || window.location.hostname.includes("chat.openai.com")) {
+      target = document.getElementById("prompt-textarea");
+      if (target) target = target.closest("div.flex.w-full") || target.parentElement;
+      insertMode = "before";
+    } else if (window.location.hostname.includes("gemini.google.com")) {
+      target = document.querySelector("rich-textarea");
+      if (target) target = target.parentElement;
+      insertMode = "before";
+    } else if (window.location.hostname.includes("grok.com") || window.location.hostname.includes("x.ai")) {
+      target = document.querySelector("textarea");
+      if (target) target = target.closest("form") || target.parentElement;
+      insertMode = "before";
+    }
+
+    if (!target || !target.parentElement) return false;
+
     const bar = buildBar();
-    toolbarRow.parentElement.insertBefore(bar, toolbarRow.nextSibling);
+    if (insertMode === "after") {
+      target.parentElement.insertBefore(bar, target.nextSibling);
+    } else {
+      target.parentElement.insertBefore(bar, target);
+    }
+
     if (lastState) render(lastState);
     else {
       chrome.runtime.sendMessage({ type: "wiredge:get" }, (s) => s && render(s));
@@ -124,16 +152,11 @@
     return true;
   }
 
-  let mountObs = null;
-  if (!tryMount()) {
-    mountObs = new MutationObserver(() => {
-      if (tryMount() && mountObs) {
-        mountObs.disconnect();
-        mountObs = null;
-      }
-    });
-    mountObs.observe(document.documentElement, { childList: true, subtree: true });
-  }
+  const mountObs = new MutationObserver(() => {
+    tryMount();
+  });
+  mountObs.observe(document.documentElement, { childList: true, subtree: true });
+  tryMount();
 
   // Local re-render every 2s so the countdown + LIVE model tag stay fresh.
   setInterval(() => {
