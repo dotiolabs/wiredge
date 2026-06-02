@@ -122,6 +122,14 @@
           insertMode = "after";
         }
       }
+      if (!target) {
+        // Fallback for when Claude is generating and the model selector hides
+        const fieldset = document.querySelector("fieldset");
+        if (fieldset) {
+          target = fieldset;
+          insertMode = "before"; // Inject just above the chat input box
+        }
+      }
     } else if (window.location.hostname.includes("chatgpt.com") || window.location.hostname.includes("chat.openai.com")) {
       target = document.getElementById("prompt-textarea");
       if (target) target = target.closest("div.flex.w-full") || target.parentElement;
@@ -142,6 +150,7 @@
     if (insertMode === "after") {
       target.parentElement.insertBefore(bar, target.nextSibling);
     } else {
+      // "before"
       target.parentElement.insertBefore(bar, target);
     }
 
