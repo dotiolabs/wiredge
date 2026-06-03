@@ -123,11 +123,19 @@
         }
       }
       if (!target) {
-        // Fallback for when Claude is generating and the model selector hides
-        const fieldset = document.querySelector("fieldset");
-        if (fieldset) {
-          target = fieldset;
-          insertMode = "before"; // Inject just above the chat input box
+        // Fallback for when Claude is generating (Stop button appears)
+        const stopBtn = document.querySelector('button[aria-label*="Stop"], button[aria-label*="stop"]');
+        if (stopBtn) {
+          target = stopBtn.closest(".flex.w-full.items-center") || stopBtn.parentElement;
+          insertMode = "after";
+        }
+      }
+      if (!target) {
+        // Ultimate fallback: The main chat history container (never destroyed)
+        const chatHistory = document.querySelector(".flex-1.overflow-y-auto");
+        if (chatHistory) {
+          target = chatHistory;
+          insertMode = "after"; 
         }
       }
     } else if (window.location.hostname.includes("chatgpt.com") || window.location.hostname.includes("chat.openai.com")) {
