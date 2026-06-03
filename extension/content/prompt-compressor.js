@@ -136,9 +136,10 @@
       "  cursor:pointer; display:flex; align-items:center; justify-content:center;",
       "  transition:all 0.2s ease; opacity:0; transform:scale(0.8); pointer-events:none;",
       "}",
-      "#" + BTN_ID + ".visible { opacity:1; transform:scale(1); pointer-events:auto; }",
-      "#" + BTN_ID + ":hover { filter:brightness(1.15); transform:scale(1.08); box-shadow:0 4px 16px rgba(79,70,229,0.45); }",
-      "#" + BTN_ID + ":active { transform:scale(0.95); }",
+      "#" + BTN_ID + ".visible { opacity:0.5; filter:grayscale(100%); transform:scale(1); pointer-events:auto; }",
+      "#" + BTN_ID + ".has-text { opacity:1; filter:none; transform:scale(1.05); }",
+      "#" + BTN_ID + ":hover { filter:brightness(1.15) !important; transform:scale(1.08) !important; box-shadow:0 4px 16px rgba(79,70,229,0.45); }",
+      "#" + BTN_ID + ":active { transform:scale(0.95) !important; }",
       "#" + BTN_ID + " svg { pointer-events:none; }",
       "#" + BTN_ID + " .wiredge-fab-badge {",
       "  position:absolute; top:-3px; right:-3px; width:8px; height:8px;",
@@ -257,7 +258,8 @@
     // Badge when input has enough text
     var text = getInputText(input).trim();
     if (text.length === 0) {
-      fab.classList.remove("visible");
+      fab.classList.add("visible");
+      fab.classList.remove("has-text");
     } else {
       fab.classList.add("visible");
       fab.classList.toggle("has-text", text.length >= MIN_CHARS);
@@ -315,7 +317,24 @@
   function showEmptyState() {
     var body = document.getElementById("wiredge-cp-body");
     if (!body) return;
-    body.innerHTML = '<div class="wiredge-cp-empty">Type a longer prompt (at least ' + MIN_CHARS + ' chars),<br/>then click <strong>\u26A1 Compress</strong></div>';
+    body.innerHTML = '<div class="wiredge-cp-empty" style="text-align:left; padding: 0 4px;">' +
+      '<div style="margin-bottom:8px; color:#A1A1AA; font-size:11.5px;">Paste massive code blocks directly here:</div>' +
+      '<textarea id="wiredge-cp-manual-input" style="width:100%; height:140px; background:#111113; border:1px solid rgba(255,255,255,0.1); border-radius:6px; color:#E4E4E7; padding:10px; font-family:monospace; font-size:11px; resize:none;" placeholder="Paste code to compress..."></textarea>' +
+      '<button class="wiredge-cp-btn primary" id="wiredge-cp-manual-btn" style="width:100%; margin-top:10px;">\u26A1 Compress</button>' +
+      '</div>';
+      
+    var manualBtn = document.getElementById("wiredge-cp-manual-btn");
+    var manualInput = document.getElementById("wiredge-cp-manual-input");
+    if (manualBtn && manualInput) {
+      manualBtn.addEventListener("click", function() {
+        var val = manualInput.value.trim();
+        if (val.length >= MIN_CHARS) {
+          doCompress(val);
+        } else {
+          manualInput.placeholder = "Please paste more code...";
+        }
+      });
+    }
   }
 
   function showLoading() {
